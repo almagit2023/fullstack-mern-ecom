@@ -1,0 +1,15 @@
+.header-block {
+    min-height: 8rem;
+    background: var(--primary-color);
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0rem 1rem;
+}
+
+.logo-text {
+    font-size: calc(2.5* var(--base-font-size));
+    color: var(--secondary-color);
+    font-weight: bold;
+}
