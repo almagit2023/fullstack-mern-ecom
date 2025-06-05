@@ -1,0 +1,87 @@
+.cart-container {
+  width: 65%;
+  margin: 2rem auto;
+}
+.cart-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.cart-table {
+  width: 100%;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+.cart-header-table {
+  background-color: var(--tertiary-color);
+  color: var(--accent-color);
+}
+.cart-header-table th {
+  padding: 8px 12px;
+  border-right: 1px solid;
+}
+.cart-data-table td {
+  padding: 8px 12px;
+  text-align: center;
+  border: 1px solid var(--accent-color);
+}
+.btn-quantity {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-quantity:hover {
+  background-color: var(--tertiary-color);
+  color: var(--accent-color);
+}
+.btn-quantity:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+.btn-remove {
+  background-color: red;
+  color: var(--primary-color);
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn-remove:hover {
+  background-color: darkred;
+}
+.cart-summary {
+  margin-top: 1rem;
+  text-align: right;
+}
+.btn-clear-cart {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+.btn-clear-cart:hover {
+  background-color: var(--tertiary-color);
+  color: var(--accent-color);
+}
+.empty-cart {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--tertiary-color);
+  width: 100%;
+  margin: 10% auto;
+  height: 200px;
+  background-color: var(--tertiary-color);
+}
+.empty-cart-icon {
+  font-size: 36px;
+  background-color: gray;
+}

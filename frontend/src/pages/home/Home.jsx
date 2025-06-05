@@ -1,11 +1,12 @@
 import React from 'react'
 import DisplayRecords from '../../components/displayRecords/DisplayRecords'
-import { useState, useEffect } from 'react'
+import { ToastContainer } from 'react-toastify';
 
 export default function Home() {
   return (
     <div>
       <DisplayRecords/>
+      <ToastContainer />
     </div>
   )
 }

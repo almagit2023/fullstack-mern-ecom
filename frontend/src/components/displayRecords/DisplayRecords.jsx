@@ -7,9 +7,13 @@ import { rest_api_url } from "../../../data";
 import { FaTrash } from "react-icons/fa6";
 import { MdModeEdit } from "react-icons/md";
 import { GiEmptyChessboard } from "react-icons/gi";
+import { useDispatch } from 'react-redux';
+import { handleSuccess } from '../../../util';
+import { addToCart } from "../../features/cart/cartSlice";
 
 export default function DisplayRecords() {
   const [productData, setProductData] = useState([]);
+  const dispatch = useDispatch();
 
   const displayRecords = () => {
     axios
@@ -42,11 +46,17 @@ export default function DisplayRecords() {
       .then((res) => {
         console.log("Deleted Product with ID : ", id);
         window.location.reload(true);
+        console.log(res.data)
       })
       .catch((error) => {
         console.error(error);
         console.log("Record cant be deleted...");
       });
+  };
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    handleSuccess(`${product.name} added to cart!`);
   };
 
   return (
@@ -58,8 +68,9 @@ export default function DisplayRecords() {
               <th>Product Name</th>
               <th>Product Category</th>
               <th>Product Price</th>
-              <th>EDIT</th>
+              <th>Edit</th>
               <th>Remove</th>
+              <th>Add to Cart</th>
             </tr>
           </thead>
           <tbody className="product-data-table">
@@ -78,6 +89,14 @@ export default function DisplayRecords() {
                     className="product-delete-icon"
                     onClick={() => handleProductDelete(item._id)}
                   />
+                </td>
+                <td>
+                  <button
+                    className="btn btn-add-to-cart"
+                    onClick={() => handleAddToCart(item)}
+                  >
+                    Add to Cart
+                  </button>
                 </td>
               </tr>
             ))}

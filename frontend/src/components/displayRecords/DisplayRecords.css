@@ -102,3 +102,16 @@
   }
 }
 
+.btn-add-to-cart {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-add-to-cart:hover {
+    background-color: var(--tertiary-color);
+    color: var(--accent-color);
+    transform: scale(1.05);
+}

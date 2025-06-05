@@ -8,6 +8,7 @@ import Contact from './pages/contact/Contact';
 import UpdateRecords from './components/updateRecords/UpdateRecords';
 import LogIn from './pages/login/LogIn';
 import SignUp from './pages/signup/SignUp';
+import Cart from './pages/cart/Cart';
 import { useState } from 'react';
 import RefreshHandler from './components/refreshHandler/RefreshHandler';
 
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/create" element={<PrivateRoute element={<Create />} />} />
+        <Route path="/cart" element={<PrivateRoute element={<Cart />} />} />
         <Route path="/:id" element={<PrivateRoute element={<UpdateRecords />} />} />
         <Route path="/contact" element={<PrivateRoute element={<Contact />} />} />
       </Routes>
