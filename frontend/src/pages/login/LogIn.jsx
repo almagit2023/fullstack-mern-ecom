@@ -1,18 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LogIn.css";
-import { useState } from "react";
 import { login_url } from "../../../data";
-import { Link } from "react-router-dom";
-// import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../../../util";
-import { useNavigate } from "react-router-dom";
-
 
 export default function LogIn() {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const loginPayload = {
     email: loginEmail,
@@ -23,10 +19,7 @@ export default function LogIn() {
     e.preventDefault();
     console.log(loginPayload);
 
-    if (
-      !loginPayload.email ||
-      !loginPayload.password
-    ) {
+    if (!loginPayload.email || !loginPayload.password) {
       return handleError("Both Email & Password Required..");
     }
 
@@ -39,26 +32,23 @@ export default function LogIn() {
         body: JSON.stringify(loginPayload),
       });
       const result = await response.json();
-      const { success , message , jwtToken , name, error} = result;
-
+      const { success, message, jwtToken, name, error } = result; // Changed 'name' to 'userName'
 
       console.log(result.success);
 
-      if(success){
-          handleSuccess("Login Successful..")
-          localStorage.setItem('token', jwtToken);
-          localStorage.setItem('loggedInUser', name);
-
-          setTimeout(()=>{
-              navigate('/home');
-          }, 1000)
-      }
-      else if(error){
+      if (success) {
+        handleSuccess("Login Successful..");
+        localStorage.setItem('token', jwtToken);
+        localStorage.setItem('loggedInUser', name); // Use userName
+        window.dispatchEvent(new Event('authChange'));
+        setTimeout(() => {
+          navigate('/home');
+        }, 1000);
+      } else if (error) {
         const details = error?.details[0].message;
         handleError(details);
-      }
-      else if(!success){
-        handleError(message)
+      } else if (!success) {
+        handleError(message);
       }
     } catch (err) {
       handleError(err);
@@ -67,33 +57,37 @@ export default function LogIn() {
 
   return (
     <div>
-      <form action="" onSubmit={(e) => handleLogin(e)} className="signup-form">
+      <form action="" onSubmit={handleLogin} className="login-form">
         <h2>Login Form</h2>
-        <div className="signup-form-group">
-          <label htmlFor="">Enter Email</label>
+        <div className="login-form-group">
+          <label htmlFor="email">Enter Email</label>
           <input
             type="email"
             name="email"
+            id="email"
             placeholder="john@gmail.com"
             onChange={(e) => setLoginEmail(e.target.value)}
+            value={loginEmail}
+            required
           />
         </div>
-        <div className="signup-form-group">
-          <label htmlFor="">Enter Password</label>
+        <div className="login-form-group">
+          <label htmlFor="password">Enter Password</label>
           <input
             type="password"
             name="password"
+            id="password"
             placeholder="Password Min Length 6.."
             onChange={(e) => setLoginPassword(e.target.value)}
+            value={loginPassword}
+            required
           />
         </div>
-        <button type="submit" className="btn btn-signup">
-          Login
-        </button>
+        <button type="submit" className="btn btn-login">Login</button>
       </form>
       <div className="navigate-login">
         <h4>
-          Not a member Yet? <Link to="/signup">Signup</Link>{" "}
+          Not a member Yet? <Link to="/signup" className="sign-up-link">Signup</Link>
         </h4>
       </div>
       <ToastContainer />

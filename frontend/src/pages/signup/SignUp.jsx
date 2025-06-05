@@ -1,4 +1,3 @@
-import React from "react";
 import "./SignUp.css";
 import { useState } from "react";
 import { signup_url } from "../../../data";
@@ -8,11 +7,13 @@ import { ToastContainer } from "react-toastify";
 import { handleError, handleSuccess } from "../../../util";
 import { useNavigate } from "react-router-dom";
 
+
 export default function SignUp() {
   const [signupName, setSignupName] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const navigate = useNavigate();
+
 
   const signupPayload = {
     name: signupName,
@@ -20,9 +21,11 @@ export default function SignUp() {
     password: signupPassword,
   };
 
+
   const handleSignup = async (e) => {
     e.preventDefault();
     console.log(signupPayload);
+
 
     if (
       !signupPayload.name ||
@@ -31,6 +34,7 @@ export default function SignUp() {
     ) {
       return handleError("Name, Email & Password Required..");
     }
+
 
     try {
       const response = await fetch(signup_url, {
@@ -58,6 +62,7 @@ export default function SignUp() {
       handleError(err);
     }
   };
+
 
   return (
     <div>

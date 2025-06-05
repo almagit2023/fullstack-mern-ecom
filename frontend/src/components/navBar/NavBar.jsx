@@ -1,32 +1,42 @@
-import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
-import { useState, useEffect } from "react";
 import { CgProfile } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { handleSignout } from "../../../util";
 import { clearCart } from "../../features/cart/cartSlice";
 
 export default function NavBar() {
-  const [loggedInUser, setLoggedInUser] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState(localStorage.getItem("loggedInUser") || "");
   const dispatch = useDispatch();
-  const cartItems = useSelector(state => state.cart?.items) || []; // Fallback to empty array
+  const cartItems = useSelector(state => state.cart?.items) || [];
   const cartItemCount = Array.isArray(cartItems) ? cartItems.reduce((total, item) => total + item.quantity, 0) : 0;
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    setLoggedInUser(localStorage.getItem("loggedInUser"));
+    const handleAuthChange = () => {
+      const user = localStorage.getItem("loggedInUser") || "";
+      setLoggedInUser(user);
+    };
+
+    handleAuthChange();
+    window.addEventListener('authChange', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('authChange', handleAuthChange);
+    };
   }, []);
 
-  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedInUser');
     localStorage.removeItem('cart');
     dispatch(clearCart());
     handleSignout("User Logged out...");
+    window.dispatchEvent(new Event('authChange'));
     setTimeout(() => {
-      navigate('/login');
+      navigate('/login', { replace: true });
     }, 600);
   };
 
@@ -38,23 +48,16 @@ export default function NavBar() {
             <CgProfile />
             <strong>Welcome {loggedInUser}</strong>
           </p>
-          <Link to="home" className="menu-link">
-            Home
-          </Link>
-          <Link to="create" className="menu-link">
-            New
-          </Link>
+          <Link to="home" className="menu-link">Home</Link>
+          <Link to="create" className="menu-link">New</Link>
           <Link to="cart" className="menu-link">
             Cart {cartItemCount > 0 && <span className="cart-badge">{cartItemCount}</span>}
           </Link>
-          <Link to="contact" className="menu-link">
-            Contact
-          </Link>
+          <Link to="contact" className="menu-link">Contact</Link>
           <button className="btn btn-logout" onClick={handleLogout}>Logout</button>
         </ul>
       ) : (
         <>
-          <h2 className="welcome-header">Welcome To ECOM CART !! Please <Link to='/signup' className="sign-up-link">Sign Up</Link></h2>
         </>
       )}
     </nav>
